@@ -1,0 +1,17 @@
+{% extends 'website/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style="min-height: 800px; display: flex;" class="align-items-center">
+
+                <form method="post" class="align-self-center m-auto">
+
+                    {% csrf_token %}
+                    {% bootstrap_form form layout='inline' %}
+                    {% bootstrap_button 'Login' 'submit' %}
+                    <a href="{% url "social:begin" "google-oauth2" %}">Google+</a><br/>
+                </form>
+    </div>
+
+{% endblock %}

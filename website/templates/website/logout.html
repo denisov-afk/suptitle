@@ -1,0 +1,15 @@
+{% extends 'website/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style="min-height: 800px; display: flex;" class="align-items-center">
+
+                <form method="post" class="align-self-center m-auto">
+                    {% csrf_token %}
+                    <h3>Are you sure?</h3>
+                    {% bootstrap_button 'Logout' 'submit' %} {% bootstrap_button 'Back' 'link' '../' %}
+                </form>
+    </div>
+
+{% endblock %}

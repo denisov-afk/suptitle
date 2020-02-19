@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
+    'social_django',
+    'website',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +126,25 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'website.WebsiteUser'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = '516076715707910'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'b2005547dec04c01c2eef06cbf40ed97'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+#   'locale': 'ru_RU',
+#   'fields': 'id, name, email, age_range'
+# }
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '300753404595-32bi5vq8sn4s02v0fl8lsh0sekp03cro.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'mrV7im0rmSDwom6R6tjIb8n8'
