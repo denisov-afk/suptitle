@@ -7,100 +7,113 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
     <div>{{ user.email }}</div>
+    <div>{{ user.username }}</div>
 
     <div>
         {% for item in video %}
-            <video controls="controls"
-                   class="video-stream"
-                   x-webkit-airplay="allow"
-                   data-youtube-id="N9oxmRT2YWw"
-                   src="{{ item.url }}&html5=True"></video>
+        <video controls="controls"
+               class="video-stream"
+               x-webkit-airplay="allow"
+               data-youtube-id="N9oxmRT2YWw"
+               src="{{ item.url }}&html5=True"></video>
         {% endfor %}
     </div>
-    <form>
-        <input type="file" id="videofile" />
-        <button type="submit" onclick="uploadTask">Upload</button>
+    <h3>Upload video</h3>
+    <form method="post" action="/addvideo/" id="video_form">
+        {% csrf_token %}
+        <input type="file" id="videofile"/>
+        <button type="button" onclick="uploadVideo()">Upload</button>
+        <input type="hidden" name="url" id="url">
+        <input type="hidden" name="filename" id="filename">
+{#        <button type="submit">Submit</button>#}
     </form>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-storage.js"></script>
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
 
     <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyCLCQwmi_0gULv6tfZruENLGcrZT3en3J8",
-        authDomain: "subtitles-a6e05.firebaseapp.com",
-        databaseURL: "https://subtitles-a6e05.firebaseio.com",
-        projectId: "subtitles-a6e05",
-        storageBucket: "subtitles-a6e05.appspot.com",
-        messagingSenderId: "51266705402",
-        appId: "1:51266705402:web:63b224df750db3b6af3643"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCLCQwmi_0gULv6tfZruENLGcrZT3en3J8",
+            authDomain: "subtitles-a6e05.firebaseapp.com",
+            databaseURL: "https://subtitles-a6e05.firebaseio.com",
+            projectId: "subtitles-a6e05",
+            storageBucket: "subtitles-a6e05.appspot.com",
+            messagingSenderId: "51266705402",
+            appId: "1:51266705402:web:63b224df750db3b6af3643"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
 
 
-      // Get a reference to the storage service, which is used to create references in your storage bucket
-      var storage = firebase.storage();
-      var storageRef = firebase.storage().ref();
+        // Get a reference to the storage service, which is used to create references in your storage bucket
+        var storage = firebase.storage();
+        var storageRef = firebase.storage().ref();
+
+        function uploadVideo() {
 
 
-      // File or Blob named mountains.jpg
-var file = document.getElementById("videofile");
+            // File or Blob named mountains.jpg
+            var file = document.getElementById("videofile").files[0];
+            console.log(file);
 
 // Create the file metadata
-var metadata = {
-  contentType: 'video/mp4'
-};
+            var metadata = {
+                contentType: 'video/mp4'
+            };
 
 // Upload file and metadata to the object 'images/mountains.jpg'
-var uploadTask = storageRef.child('videos/' + file.name).put(file, metadata);
+            var uploadTask = storageRef.child('{{user.username}}/' + file.name).put(file, metadata);
 
 // Listen for state changes, errors, and completion of the upload.
-uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-  function(snapshot) {
-    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
-    switch (snapshot.state) {
-      case firebase.storage.TaskState.PAUSED: // or 'paused'
-        console.log('Upload is paused');
-        break;
-      case firebase.storage.TaskState.RUNNING: // or 'running'
-        console.log('Upload is running');
-        break;
-    }
-  }, function(error) {
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+                function (snapshot) {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            console.log('Upload is paused');
+                            break;
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
+                            console.log('Upload is running');
+                            break;
+                    }
+                }, function (error) {
+                    console.log(error);
+                    // A full list of error codes is available at
+                    // https://firebase.google.com/docs/storage/web/handle-errors
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            // User doesn't have permission to access the object
+                            break;
 
-  // A full list of error codes is available at
-  // https://firebase.google.com/docs/storage/web/handle-errors
-  switch (error.code) {
-    case 'storage/unauthorized':
-      // User doesn't have permission to access the object
-      break;
-
-    case 'storage/canceled':
-      // User canceled the upload
-      break;
+                        case 'storage/canceled':
+                            // User canceled the upload
+                            break;
 
 
-    case 'storage/unknown':
-      // Unknown error occurred, inspect error.serverResponse
-      break;
-      
-  }
-}, function() {
-  // Upload completed successfully, now we can get the download URL
-  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-    console.log('File available at', downloadURL);
-  });
-});
+                        case 'storage/unknown':
+                            // Unknown error occurred, inspect error.serverResponse
+                            break;
 
+                    }
+                }, function () {
+                    // Upload completed successfully, now we can get the download URL
+                    uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                        console.log('File available at', downloadURL);
+                        var url_field = document.getElementById('url');
+                        var filename_field = document.getElementById('filename');
+                        var video_form = document.getElementById('video_form');
+                        url_field.value = downloadURL;
+                        filename_field.value = file.name;
+                        video_form.submit();
+                    });
+                });
+
+        }
 
 
     </script>
 {% endblock %}
-{#<iframe width="1140" height="641" src="https://www.youtube.com/embed/qwZNQ2cF3p0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}

@@ -22,6 +22,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/login/', views.WebsiteLoginView.as_view(), name='login'),
     path('accounts/profile/', views.profile, name='profile'),
+    path('addvideo/', views.add_video, name='add_video'),
 
     path('<str:pagename>/', views.page, name='page'),
 
