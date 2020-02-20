@@ -21,8 +21,10 @@ from website import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/login/', views.WebsiteLoginView.as_view(), name='login'),
+    path('accounts/logout/', views.WebsiteLogoutView.as_view(), name='logout'),
     path('accounts/profile/', views.profile, name='profile'),
     path('addvideo/', views.add_video, name='add_video'),
+    path('delvideo/<int:id>/', views.del_video, name='del_video'),
 
     path('<str:pagename>/', views.page, name='page'),
 
