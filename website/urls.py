@@ -25,6 +25,7 @@ urlpatterns = [
     path('accounts/profile/', views.profile, name='profile'),
     path('addvideo/', views.add_video, name='add_video'),
     path('delvideo/<int:id>/', views.del_video, name='del_video'),
+    path('editvideo/<int:pk>/', views.VideoUpdateView.as_view(), name='edit_video'),
 
     path('<str:pagename>/', views.page, name='page'),
 

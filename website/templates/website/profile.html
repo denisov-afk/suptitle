@@ -16,7 +16,7 @@
                 <div class="col-4 mt-1 mb-1">
                     <div class="card">
                         <div class="modal-header pt-1 pb-1">
-                            <div class="modal-title">{{ item.filename }}</div>
+                            <div class="modal-title"><a href="{% url 'edit_video' item.id %}">{{ item.filename }}</a></div>
                                     <a href="{% url 'del_video' item.id %}" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </a>
@@ -26,9 +26,7 @@
                             <video controls="controls"
                                    style="width: 348px; height: 206px;"
                                    class="video-stream"
-                                   x-webkit-airplay="allow"
-                                   data-youtube-id="N9oxmRT2YWw"
-                                   src="{{ item.url }}&html5=True">
+                                   src="{{ item.url }}">
                             </video>
                         </div>
                         <div class="card-footer text-muted">
@@ -96,7 +94,6 @@
                 contentType: 'video/mp4'
             };
 
-// Upload file and metadata to the object 'images/mountains.jpg'
             var uploadTask = storageRef.child('{{user.username}}/' + file.name).put(file, metadata);
 
 // Listen for state changes, errors, and completion of the upload.

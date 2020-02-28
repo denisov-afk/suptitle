@@ -7,8 +7,9 @@ from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView
 
+from website.forms import VideoUpdateForm
 from website.models import Video
 
 
@@ -59,3 +60,9 @@ class WebsiteLogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'website/logout.html'
     login_url = reverse_lazy('login')
     next_page = '/'
+
+
+class VideoUpdateView(LoginRequiredMixin, UpdateView):
+    model = Video
+    form_class = VideoUpdateForm
+    login_url = reverse_lazy('login')
