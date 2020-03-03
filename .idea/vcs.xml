@@ -2,5 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/website/static/website/prosemirror-model" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/website/static/website/prosemirror-schema-basic" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/website/static/website/prosemirror-state" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/website/static/website/prosemirror-view" vcs="Git" />
   </component>
 </project>

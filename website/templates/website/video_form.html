@@ -1,5 +1,11 @@
 {% extends 'website/base.html' %}
 {% load bootstrap4 %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'website/editvideo.js' %}" ></script>
+	<script src="https://prosemirror.net/examples/prosemirror.js"></script>
+	<script src="{% static 'website/require-pm.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -26,14 +32,10 @@
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                {{ video.captions.transcript }} - {{ video.captions.confidence | floatformat:2 }}
-              <div>
-                  {% for word in video.captions.words %}
-                      <span class="word">{{ word.word }} : {{ word.start_time }} - {{ word.end_time }}</span>
-
-                  {% endfor %}
-                </div>
+              <div class="tab-pane fade show active" id="home" contenteditable="true"  role="tabpanel" aria-labelledby="home-tab">
+               <div id="editor">
+			   </div>
+			   
               </div>
               <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <form>

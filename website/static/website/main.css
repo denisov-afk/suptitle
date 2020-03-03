@@ -1,3 +1,4 @@
+
 .video-responsive {
     position: relative;
     padding-bottom: 56.25%;
@@ -20,3 +21,10 @@
     border: 1px solid darkseagreen;
     margin: 2px;
 }
+
+#home{
+	border-style: double  !important;
+    border-width: 4px  !important;
+	padding: 7px !important; 
+}
+

@@ -8,6 +8,7 @@ from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, UpdateView
+import pika
 
 from website.forms import VideoUpdateForm
 from website.models import Video
@@ -35,6 +36,7 @@ def add_video(request):
                                  url=url,
                                  filename=filename)
     video.save()
+    # pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     messages.success(request, 'Video uploaded successfully')
     return redirect('profile')
 
@@ -45,6 +47,7 @@ def del_video(request, id):
     video.delete()
     messages.success(request, 'Video was deleted')
     return redirect('profile')
+
 
 @login_required
 def profile(request):
