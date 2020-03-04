@@ -9,7 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, UpdateView
 import pika
+from django.conf import settings
 
+from website.amqp import AmqpPublisher
 from website.forms import VideoUpdateForm
 from website.models import Video
 
@@ -31,14 +33,22 @@ def page(request, pagename):
 def add_video(request):
     url = request.POST.get('url')
     filename = request.POST.get('filename')
+    language_code = request.POST.get('language_code')
     print(filename, url)
     video = Video.objects.create(user=request.user,
                                  url=url,
                                  filename=filename)
     video.save()
-    # pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     messages.success(request, 'Video uploaded successfully')
+    amqp_body = {'url': url,
+                 'language_code': language_code,
+                 'job': 'audio-extract-and-recognize',
+                 }
+    headers = {'video_id': video.id}
+    AmqpPublisher().publish(amqp_body, headers)
     return redirect('profile')
+
+
 
 
 @login_required

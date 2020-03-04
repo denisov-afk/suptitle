@@ -150,3 +150,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '300753404595-32bi5vq8sn4s02v0fl8lsh0sekp03cro.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'mrV7im0rmSDwom6R6tjIb8n8'
 
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
+# settings for microservices (STT, Videoresizer)
+BROKER_URL = 'amqp://guest:guest@localhost:5672/%2F'
+QUEUE_VIDEORESIZER = 'videoresizer.in'
+QUEUE_STT = 'STT.out'
+WEBSITE_APP_ID = 'suptitle.website'

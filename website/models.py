@@ -16,6 +16,7 @@ class WebsiteUser(AbstractUser):
 class Video(models.Model):
     user = models.ForeignKey(WebsiteUser, models.CASCADE)
     url = models.URLField()
+    language_code = models.CharField(max_length=20, default='en_us')
     filename = models.CharField(max_length=255)
     uploaded = models.DateTimeField(auto_created=True, auto_now_add=True)
     captions = JSONField(blank=True, null=True)

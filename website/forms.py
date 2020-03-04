@@ -5,4 +5,4 @@ from .models import Video
 class VideoUpdateForm(ModelForm):
     class Meta:
         model = Video
-        exclude = ['url', 'filename', 'captions', 'uploaded', 'user']
+        exclude = ['url', 'filename', 'captions', 'uploaded', 'user', 'language_code']
