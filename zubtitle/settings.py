@@ -154,5 +154,4 @@ CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 # settings for microservices (STT, Videoresizer)
 BROKER_URL = 'amqp://guest:guest@localhost:5672/%2F'
 QUEUE_VIDEORESIZER = 'videoresizer.in'
-QUEUE_STT = 'STT.out'
 WEBSITE_APP_ID = 'suptitle.website'
