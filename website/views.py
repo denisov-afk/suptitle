@@ -8,12 +8,14 @@ from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, UpdateView
-import pika
-from django.conf import settings
+from rest_framework import status
 
 from website.amqp import AmqpPublisher
 from website.forms import VideoUpdateForm
 from website.models import Video
+from website.serializers import VideoSerializer, VideoCaptionsSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
 def index(request):
@@ -79,3 +81,21 @@ class VideoUpdateView(LoginRequiredMixin, UpdateView):
     model = Video
     form_class = VideoUpdateForm
     login_url = reverse_lazy('login')
+
+
+@api_view(['GET'])
+def api_get_video(request, pk):
+    video = Video.objects.get(pk=pk)
+    if request.method == 'GET':
+        serializer = VideoSerializer(video)
+        return Response(serializer.data)
+
+
+@api_view(['PATCH'])
+def api_video_captions_path(request, pk):
+    video = Video.objects.get(pk=pk)
+    serializer = VideoCaptionsSerializer(video, request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

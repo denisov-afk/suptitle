@@ -40,11 +40,14 @@ INSTALLED_APPS = [
     'bootstrap4',
     'social_django',
     'website',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -155,3 +158,7 @@ CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 BROKER_URL = 'amqp://guest:guest@localhost:5672/%2F'
 QUEUE_VIDEORESIZER = 'videoresizer.in'
 WEBSITE_APP_ID = 'suptitle.website'
+
+# rest options
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'

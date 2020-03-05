@@ -29,4 +29,7 @@ urlpatterns = [
 
     path('<str:pagename>/', views.page, name='page'),
 
+    path('api/video/<int:pk>/', views.api_get_video, name='api_get_video'),
+    path('api/video-captions/<int:pk>/', views.api_video_captions_path, name='api_video_captions_path'),
+
 ]
