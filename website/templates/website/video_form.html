@@ -14,23 +14,25 @@
 
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                       aria-controls="home" aria-selected="true">Captions</a>
+                    <a class="nav-link {% if not video.on_process %}active{% endif %}" id="captions-tab" data-toggle="tab" href="#captions" role="tab"
+                       aria-controls="captions" aria-selected="true">Captions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                       aria-controls="profile" aria-selected="false">Resizer</a>
+                    <a class="nav-link" id="resize-tab" data-toggle="tab" href="#resize" role="tab"
+                       aria-controls="resize" aria-selected="false">Resizer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                       aria-controls="contact" aria-selected="false">Result</a>
+                    <a class="nav-link {% if video.on_process %}active{% endif %}" id="result-tab" data-toggle="tab" href="#result" role="tab"
+                       aria-controls="result" aria-selected="false">Result</a>
                 </li>
                 <li class="nav-item ml-auto">
                     <a class="navbar-link align-right" href="{% url 'profile' %}">Back to all videos</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                <div class="tab-pane fade show {% if not video.on_process %}active{% endif %} p-3" id="captions"
+                     role="tabpanel" aria-labelledby="captions-tab">
 
                     {% if video.captions %}
                         {{ video.captions.transcript }} -
@@ -50,12 +52,14 @@
                         <h5 class="text-muted text-center">Loading captions...</h5>
                     {% endif %}
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                <div class="tab-pane fade p-3" id="resize" role="tabpanel" aria-labelledby="resize-tab">
                     <form>
                         {% bootstrap_form form layout='horizontal' %}
                     </form>
                 </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+                <div class="tab-pane fade p-3 {% if video.on_process %}active show{% endif %}" id="result" role="tabpanel" aria-labelledby="result-tab">
 
                     {% if not video.result_url and not video.on_process %}
                         <div><p>Once you are satisfied with your video, you may click the button below to render and
