@@ -33,6 +33,8 @@ class WebsiteUser(AbstractUser):
 class Video(models.Model):
     user = models.ForeignKey(WebsiteUser, models.CASCADE)
     url = models.URLField()
+    result_url = models.URLField(blank=True, null=False)
+    on_process = models.BooleanField(default=False)
     language_code = models.CharField(max_length=20, default='en_us')
     filename = models.CharField(max_length=255)
     uploaded = models.DateTimeField(auto_created=True, auto_now_add=True)

@@ -31,5 +31,6 @@ urlpatterns = [
 
     path('api/video/<int:pk>/', views.api_get_video, name='api_get_video'),
     path('api/video-captions/<int:pk>/', views.api_video_captions_path, name='api_video_captions_path'),
+    path('send-video-for-processing/<int:pk>/', views.send_video_on_processing, name='send_video_on_processing'),
 
 ]

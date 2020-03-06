@@ -51,11 +51,35 @@ def add_video(request):
     return redirect('profile')
 
 
+@login_required
+def send_video_on_processing(request, pk):
+    video = Video.objects.get(pk=pk)
+    amqp_body = {
+        'url': video.url,
+        'captions': video.captions,
+        'caption_style': video.caption_style,
+        'aspect_ratio': video.aspect_ratio,
+        'caption_position_v': video.caption_position_v,
+        'caption_position_h': video.caption_position_h,
+        'headline': video.headline,
+        'headline_style': video.headline_style,
+        'headline_position_v': video.headline_position_v,
+        'headline_position_h': video.headline_position_h,
+        'zoom': video.zoom,
+        'background_color': video.background_color,
+        'job': 'video-processing'
+    }
+    headers = {'video_id': video.id}
+    AmqpPublisher().publish(amqp_body, headers)
+    video.on_process = True
+    video.save()
+    messages.success(request, 'Video sended for processing.')
+    return redirect(reverse('edit_video', args=[video.pk]))
 
 
 @login_required
-def del_video(request, id):
-    video = Video.objects.get(pk=id)
+def del_video(request, pk):
+    video = Video.objects.get(pk=pk)
     video.delete()
     messages.success(request, 'Video was deleted')
     return redirect('profile')

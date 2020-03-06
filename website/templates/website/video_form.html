@@ -56,12 +56,25 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <div><p>Once you are satisfied with your video, you may click the button below to render and
+
+                    {% if not video.result_url and not video.on_process %}
+                        <div><p>Once you are satisfied with your video, you may click the button below to render and
                         download
                         the video with captions.</p>
                         <p>When you render this video, 1 video will be deducted from the 1 video
                             in your account balance, leaving you with 0 videos.</p></div>
-                    <a href="#" class="btn btn-primary">Render and download</a>
+                        <a href="{% url 'send_video_on_processing' video.id %}" class="btn btn-primary">Render and download</a>
+                    {% elif not video.result_url and video.on_process %}
+                        <div class="text-center mt-3">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <h5 class="text-muted text-center">Video processing. Please wait...</h5>
+                    {% else %}
+                        <a href="{{ video.result_url }}" target="_blank" class="btn-success btn">Download result</a>
+                    {% endif %}
+
                 </div>
             </div>
 
