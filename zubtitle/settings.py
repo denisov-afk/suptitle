@@ -162,3 +162,7 @@ WEBSITE_APP_ID = 'suptitle.website'
 # rest options
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
+
+BOOTSTRAP4 = {
+    'horizontal_field_class': 'col-md-3',
+}

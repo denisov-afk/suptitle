@@ -52,10 +52,17 @@
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <form>
-                        {% bootstrap_form form %}
+                        {% bootstrap_form form layout='horizontal' %}
                     </form>
                 </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div><p>Once you are satisfied with your video, you may click the button below to render and
+                        download
+                        the video with captions.</p>
+                        <p>When you render this video, 1 video will be deducted from the 1 video
+                            in your account balance, leaving you with 0 videos.</p></div>
+                    <a href="#" class="btn btn-primary">Render and download</a>
+                </div>
             </div>
 
 
